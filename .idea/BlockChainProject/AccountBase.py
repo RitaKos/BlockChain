@@ -6,6 +6,7 @@ import  getpass
 import sys
 from .Service import Techf
 from .Control import Control
+from .Transaction import newtransaction
 
 # Account base conains accounts of blockchain users. For creating we don't need any personal data
 # as wel as contact information. All transaction is available by using ID and Key. For generating personal key
@@ -32,6 +33,7 @@ class Account(object):
             'key': _key_unique,
             'string_key': inner_key,
             'balance': balance,
+            'frozzen': 0,
             'open_date': activation_date
         }
         self.user_account =user_account
@@ -100,7 +102,30 @@ class Account(object):
     def new_transaction(self,recipient,amount):
         if Control.validate_transaction(self,amount):
            if Control.validate_account(recipient):
-               if Control.validate_lake(self.user_account['user_id']):
+               if self.frozenamount():
+               #if Control.validate_lake(self.user_account['user_id']):
+                   newtransaction(self.user_account['user_id'],recipient,amount)
+               else: return False
+           else: return False
+        else:
+            print('Check providing information. Amount is unavailible.')
+            return False
+
+# frozen ammount befor approving
+    def frozenamount(self,amount):
+       currbalance= self.show_account_balance()
+       allreadyfrozzen = self.user_account['frozzen']
+       avalible=currbalance-allreadyfrozzen
+       frozzen = avalible-amount
+       if frozzen > 0:
+            self.user_account['frozzen']=allreadyfrozzen+amount
+            return True
+       else:
+            print("""Amount of money was frozzen for transaction not allow you make new transaction./n
+                     You sould cancel previos not approved transactions.""")
+            return False
+
+
 
 
 
