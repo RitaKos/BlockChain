@@ -2,7 +2,7 @@ from .AccountBase import *
 from .Blockchain import *
 from  .Bank import *
 from  .Service import *
-from .Transaction import *
+
 
 class Transaction(object):
     def __int__(self):
@@ -11,16 +11,17 @@ class Transaction(object):
             'to': recipient,
             'amount': amount,
         }
-
     transaction_lake=[]
 
     @staticmethod
     def find_transaction_index(user_id):
         index=next((num for num,number in enumerate(Transaction.transaction_lake) if number['from']==user_id),None)
         return index
+
     @staticmethod
     def newtransaction(sender,recipient,amount):
          newtrans=self.transaction
-         Transaction.transaction_lake.append(newtrans)
+         self.transaction_lake.append(newtrans)
+
 
 
