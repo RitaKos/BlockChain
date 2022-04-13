@@ -111,7 +111,7 @@ class Account(object):
             print('Check providing information. Amount is unavailible.')
             return False
 
-# frozen ammount befor approving
+# frozen amount before approving
     def frozenamount(self,amount):
        currbalance= self.show_account_balance()
        allreadyfrozzen = self.user_account['frozzen']
