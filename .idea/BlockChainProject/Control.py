@@ -35,4 +35,16 @@ class Control:
            print(f'Sender has not compleated transactions: {transactions}')
            return False
 
+    @staticmethod
+    def  validateBlockchain():
+        prevblock=None
+        for block in Blockchain.chain:
+            if prevblock:
+                actual_prev_hash=Techf.dataToHash(prevblock)
+                recorded_prevblock=block['previous_hash']
+            if actual_prev_hash != recorded_prevblock:
+                print(f"Blockchain is invalid, expected {recorded_prevblock}, actual ={actual_prev_hash}")
+            else:
+                print(f"Valid hash {actual_prev_hash}")
+            prevblock=block
 
