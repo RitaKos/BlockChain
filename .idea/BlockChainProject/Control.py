@@ -51,6 +51,7 @@ class Control:
                     return  True
 
 
+
     @staticmethod
     def consensus(block):
         if block['voits']>100 :  # temporary decision
