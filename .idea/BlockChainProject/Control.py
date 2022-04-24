@@ -42,9 +42,29 @@ class Control:
             if prevblock:
                 actual_prev_hash=Techf.dataToHash(prevblock)
                 recorded_prevblock=block['previous_hash']
-            if actual_prev_hash != recorded_prevblock:
-                print(f"Blockchain is invalid, expected {recorded_prevblock}, actual ={actual_prev_hash}")
-            else:
-                print(f"Valid hash {actual_prev_hash}")
-            prevblock=block
+                if actual_prev_hash != recorded_prevblock:
+                    print(f"Blockchain is invalid, expected {recorded_prevblock}, actual ={actual_prev_hash}")
+                    return False
+                else:
+                    print(f"Valid hash {actual_prev_hash}")
+                    prevblock=block
+                    return  True
 
+
+    @staticmethod
+    def consensus(block):
+        if block['voits']>100 :  # temporary decision
+            succestrans=block['transactions']
+            for trans in succestrans:
+                id_s=trans['sender']
+                id_r = trans['recipient']
+                index_s=Account.find_account_index(id_s)
+                index_r=Account.find_account_index(id_r)
+                sender=Account.users_account_base[id_s]
+                recipient=Account.users_account_base[id_r]
+                sender['frozzen']=sender['frozzen']-trans['amount']
+                sender['balance']= sender['balance']-trans['amount']
+                recipient['balance']= recipient['balance']+trans['amount']
+                return True
+            else:
+                return False
